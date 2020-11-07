@@ -1,6 +1,10 @@
 <?php
-require_once('class.php');
-$vultr = new vultrAPI();
+require __DIR__ . '/vendor/autoload.php';
+
+use Corbpie\VultrAPIv2\VultrAPI;
+
+$vultr = new VultrAPI();
+
 echo $vultr->listServers();//Data for all current account instances
 
 
