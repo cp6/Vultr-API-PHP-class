@@ -1,0 +1,27 @@
+{
+  "name": "corbpie/vultr-api-v2",
+  "description": "Simple Vultr API V2 PHP class framework.",
+  "type": "library",
+  "license": "MIT",
+  "minimum-stability": "stable",
+  "authors": [
+    {
+      "name": "corbpie",
+      "email": "contact@corbpie.com"
+    }
+  ],
+  "repositories": [
+    {
+      "type": "vcs",
+      "url": "https://github.com/cp6/Vultr-API-PHP-class"
+    }
+  ],
+  "require": {
+    "php": ">=7.4"
+  },
+  "autoload": {
+    "psr-4": {
+      "Corbpie\\VultrAPIv2\\": "src/"
+    }
+  }
+}
