@@ -370,7 +370,6 @@ class VultrAPI
             ));
         } elseif ($type == 'SNAPSHOT') {
             $this->server_create_details = array_merge($this->server_create_details, array(
-                "os_id" => 164,
                 "snapshot_id" => $type_id
             ));
         } elseif ($type == 'ISO') {
