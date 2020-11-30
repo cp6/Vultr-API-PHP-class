@@ -28,11 +28,19 @@ $vultr->listOS();//Returns vultr operating systems
 $vultr->serverCreateOptions();
 //For all options
 
+
+//Create instance from snapshot:
+$vultr->serverCreateDC('syd');//Sydney Australia location
+$vultr->serverCreatePlan('vc2-2c-4gb');
+$vultr->serverCreateType('SNAPSHOT', 'YQrb72d9-ded9-4f68-a5cg-7d4f96a534de');//Deploy with my snapshot id:YQrb72d9-ded9-4f68-a5cg-7d4f96a534de
+$vultr->serverCreateLabel('Created with API x2');//label instance as "Created with API"
+echo $vultr->serverCreate();//Creates instance/server with parameters set above (returns subid)
+
+
 //DC, plan and type are required
 
-$vultr->serverCreateDC(19);//Sydney Australia location
-$vultr->serverCreatePlan(202);//(2048 MB RAM,55 GB SSD,2.00 TB BW)
+$vultr->serverCreateDC('syd');//Sydney Australia location
+$vultr->serverCreatePlan('vc2-2c-4gb');
 $vultr->serverCreateType('ISO', 146817);//Deploy with my custom ISO id:146817
 $vultr->serverCreateLabel('Created with API');//label instance as "Created with API"
 echo $vultr->serverCreate();//Creates instance/server with parameters set above (returns subid)
-
