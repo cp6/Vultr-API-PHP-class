@@ -33,6 +33,7 @@ class VultrAPI
             }
         } elseif ($type == 'PATCH') {
             curl_setopt($crl, CURLOPT_CUSTOMREQUEST, 'PATCH');
+            curl_setopt($crl, CURLOPT_POSTFIELDS, json_encode($post_fields));
         }
         if (!empty($headers)) {
             curl_setopt($crl, CURLOPT_HTTPHEADER, $headers);
