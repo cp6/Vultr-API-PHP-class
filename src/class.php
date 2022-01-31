@@ -10,12 +10,12 @@ class VultrAPI
     protected $server_create_details = [];
     protected $call_data;
 
-    public function apiKeyHeader(): array
+    protected function apiKeyHeader(): array
     {
         return array("Authorization: Bearer " . self::API_KEY . "", "Content-Type: application/json");
     }
 
-    public function doCurl(string $url, string $type = 'GET', bool $return_http_code = false, array $headers = [], array $post_fields = [])
+    protected function doCurl(string $url, string $type = 'GET', bool $return_http_code = false, array $headers = [], array $post_fields = [])
     {
         $crl = curl_init(self::API_URL . $url);
         curl_setopt($crl, CURLOPT_CUSTOMREQUEST, $type);
