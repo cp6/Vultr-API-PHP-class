@@ -10,13 +10,6 @@ class VultrAPI
     protected $server_create_details = [];
     protected $call_data;
 
-    public function __construct(bool $json_header = false)
-    {
-        if ($json_header) {
-            header('Content-Type: application/json');
-        }
-    }
-
     public function apiKeyHeader(): array
     {
         return array("Authorization: Bearer " . self::API_KEY . "", "Content-Type: application/json");
