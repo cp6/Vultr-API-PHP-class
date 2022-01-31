@@ -12,7 +12,7 @@ class VultrAPI
 
     protected function apiKeyHeader(): array
     {
-        return array("Authorization: Bearer " . self::API_KEY . "", "Content-Type: application/json");
+        return array("Authorization: Bearer " . self::API_KEY, "Content-Type: application/json");
     }
 
     protected function doCurl(string $url, string $type = 'GET', bool $return_http_code = false, array $headers = [], array $post_fields = [])
@@ -41,13 +41,11 @@ class VultrAPI
         curl_close($crl);
         if ($return_http_code) {
             return $http_response_code;
-        } else {
-            if ($http_response_code == 200 || $http_response_code == 201 || $http_response_code == 202) {
-                return $this->call_data = $call_response;//Return data
-            } else {
-                return $this->call_data = array('http_response_code' => $http_response_code);//Call failed
-            }
         }
+        if ($http_response_code == 200 || $http_response_code == 201 || $http_response_code == 202) {
+            return $this->call_data = $call_response;//Return data
+        }
+        return $this->call_data = array('http_response_code' => $http_response_code);//Call failed
     }
 
     public function setSubid(string $instance_id): void
@@ -142,11 +140,7 @@ class VultrAPI
     public function instanceReinstall(string $hostname = '')
     {
         $this->checkSubidSet();
-        if (!empty($hostname)) {
-            $post = array("hostname" => $hostname);
-        } else {
-            $post = array();
-        }
+        (!empty($hostname)) ? $post = array("hostname" => $hostname) : $post = array();
         return $this->doCurl("v2/instances/$this->instance_id/reinstall", 'POST', true, $this->apiKeyHeader(), $post);
     }
 
@@ -906,26 +900,24 @@ class VultrAPI
     */
     public function convertBytes(int $bytes, string $convert_to = 'GB', bool $format = true, int $decimals = 2)
     {
-        if ($convert_to == 'GB') {
+        if ($convert_to === 'GB') {
             $value = ($bytes / 1073741824);
-        } elseif ($convert_to == 'MB') {
+        } elseif ($convert_to === 'MB') {
             $value = ($bytes / 1048576);
-        } elseif ($convert_to == 'KB') {
+        } elseif ($convert_to === 'KB') {
             $value = ($bytes / 1024);
         } else {
             $value = $bytes;
         }
         if ($format) {
             return number_format($value, $decimals);
-        } else {
-            return $value;
         }
+        return $value;
     }
 
     public function boolToInt(bool $bool): int
     {
-        ($bool) ? $int = 1 : $int = 0;
-        return $int;
+        return ($bool) ? 1 : 0;
     }
 
     public function saveOutput(string $save_as, $output)
