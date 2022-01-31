@@ -55,7 +55,7 @@ class VultrAPI
 
     public function checkSubidSet()
     {
-        if (is_null($this->instance_id) || empty($this->instance_id)) {
+        if (empty($this->instance_id)) {
             return array("No subid is set, it is needed to perform this action.");
         }
     }
@@ -352,20 +352,20 @@ class VultrAPI
 
     public function serverCreateType(string $type = 'OS', string $type_id = '1')
     {
-        if ($type == 'OS') {
+        if ($type === 'OS') {
             $this->server_create_details = array_merge($this->server_create_details, array(
                 "os_id" => $type_id
             ));
-        } elseif ($type == 'SNAPSHOT') {
+        } elseif ($type === 'SNAPSHOT') {
             $this->server_create_details = array_merge($this->server_create_details, array(
                 "snapshot_id" => $type_id
             ));
-        } elseif ($type == 'ISO') {
+        } elseif ($type === 'ISO') {
             $this->server_create_details = array_merge($this->server_create_details, array(
                 "os_id" => 159,
                 "iso_id" => $type_id
             ));
-        } elseif ($type == 'APP') {
+        } elseif ($type === 'APP') {
             $this->server_create_details = array_merge($this->server_create_details, array(
                 "os_id" => 186,
                 "app_id" => $type_id
