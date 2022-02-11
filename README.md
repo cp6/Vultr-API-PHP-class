@@ -25,13 +25,13 @@ echo $vultr->listServers();//Lists all server instances for account
 
 ### Current version
 
-2.0 Initial release (API v2) 7 Nov 2020 
+2.0 Initial release (Vultr API v2) 7 Nov 2020 
 
 ### Requires
 
 Vultr API key obtained form your Vultr account menu.
 
-Add the Vultr API key line 7: ```src/class.php```
+Add your Vultr API key line 7: ```src/class.php```
 
 ### Examples
 
