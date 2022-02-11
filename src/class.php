@@ -6,32 +6,25 @@ class VultrAPI
 {
     protected const API_URL = 'https://api.vultr.com/';//API endpoint (Dont change)
     protected const API_KEY = 'XYZ-ABC-123';//Put your Vultr API key here
-    protected $instance_id;//Service id set with: setSubid()
-    protected $server_create_details = [];
+    protected int $instance_id;//Service id set with: setSubid()
+    protected array $server_create_details = [];
     protected $call_data;
-
-    public function __construct(bool $json_header = false)
-    {
-        if ($json_header) {
-            header('Content-Type: application/json');
-        }
-    }
 
     public function apiKeyHeader(): array
     {
-        return array("Authorization: Bearer " . self::API_KEY . "", "Content-Type: application/json");
+        return array("Authorization: Bearer " . self::API_KEY, "Content-Type: application/json");
     }
 
     public function doCurl(string $url, string $type = 'GET', bool $return_http_code = false, array $headers = [], array $post_fields = [])
     {
         $crl = curl_init(self::API_URL . $url);
         curl_setopt($crl, CURLOPT_CUSTOMREQUEST, $type);
-        if ($type == 'POST') {
+        if ($type === 'POST') {
             curl_setopt($crl, CURLOPT_POST, true);
             if (!empty($post_fields)) {
                 curl_setopt($crl, CURLOPT_POSTFIELDS, json_encode($post_fields));
             }
-        } elseif ($type == 'PATCH') {
+        } elseif ($type === 'PATCH') {
             curl_setopt($crl, CURLOPT_CUSTOMREQUEST, 'PATCH');
             curl_setopt($crl, CURLOPT_POSTFIELDS, json_encode($post_fields));
         }
@@ -48,13 +41,11 @@ class VultrAPI
         curl_close($crl);
         if ($return_http_code) {
             return $http_response_code;
-        } else {
-            if ($http_response_code == 200 || $http_response_code == 201 || $http_response_code == 202) {
-                return $this->call_data = $call_response;//Return data
-            } else {
-                return $this->call_data = array('http_response_code' => $http_response_code);//Call failed
-            }
         }
+        if ($http_response_code === 200 || $http_response_code === 201 || $http_response_code === 202) {
+            return $this->call_data = $call_response;//Return data
+        }
+        return $this->call_data = array('http_response_code' => $http_response_code);//Call failed
     }
 
     public function setSubid(string $instance_id): void
@@ -365,20 +356,20 @@ class VultrAPI
 
     public function serverCreateType(string $type = 'OS', string $type_id = '1')
     {
-        if ($type == 'OS') {
+        if ($type === 'OS') {
             $this->server_create_details = array_merge($this->server_create_details, array(
                 "os_id" => $type_id
             ));
-        } elseif ($type == 'SNAPSHOT') {
+        } elseif ($type === 'SNAPSHOT') {
             $this->server_create_details = array_merge($this->server_create_details, array(
                 "snapshot_id" => $type_id
             ));
-        } elseif ($type == 'ISO') {
+        } elseif ($type === 'ISO') {
             $this->server_create_details = array_merge($this->server_create_details, array(
                 "os_id" => 159,
                 "iso_id" => $type_id
             ));
-        } elseif ($type == 'APP') {
+        } elseif ($type === 'APP') {
             $this->server_create_details = array_merge($this->server_create_details, array(
                 "os_id" => 186,
                 "app_id" => $type_id
