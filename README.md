@@ -25,9 +25,11 @@ echo $vultr->listServers();//Lists all server instances for account
 
 ### Current version
 
-2.0 Initial release (Vultr API v2) 7 Nov 2020 
+2.2 Updated for PHP version 8.2 16th Feb 2023 
 
 ### Requires
+
+* PHP 8.2
 
 Vultr API key obtained form your Vultr account menu.
 
