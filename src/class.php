@@ -12,7 +12,7 @@ class VultrAPI
 
     public function apiKeyHeader(): array
     {
-        return array("Authorization: Bearer " . self::API_KEY, "Content-Type: application/json");
+        return ["Authorization: Bearer " . self::API_KEY, "Content-Type: application/json"];
     }
 
     public function doCurl(string $url, string $type = 'GET', bool $return_http_code = false, array $headers = [], array $post_fields = [])
@@ -45,7 +45,7 @@ class VultrAPI
         if ($http_response_code === 200 || $http_response_code === 201 || $http_response_code === 202) {
             return $this->call_data = $call_response;//Return data
         }
-        return $this->call_data = array('http_response_code' => $http_response_code);//Call failed
+        return $this->call_data = ['http_response_code' => $http_response_code];//Call failed
     }
 
     public function setSubid(string $instance_id): void
@@ -55,8 +55,8 @@ class VultrAPI
 
     public function checkSubidSet()
     {
-        if (is_null($this->instance_id) || empty($this->instance_id)) {
-            return array("No subid is set, it is needed to perform this action.");
+        if (!isset($this->instance_id)) {
+            return ["No subid is set, it is needed to perform this action."];
         }
     }
 
@@ -342,19 +342,19 @@ class VultrAPI
      */
     public function serverCreateDC(string $dc_id)
     {
-        $this->server_create_details = array(
+        $this->server_create_details = [
             "region" => $dc_id
-        );
+        ];
     }
 
     public function serverCreatePlan(string $plan_id)
     {
-        $this->server_create_details = array_merge($this->server_create_details, array(
+        $this->server_create_details = array_merge($this->server_create_details, [
             "plan" => $plan_id
-        ));
+        ]);
     }
 
-    public function serverCreateType(string $type = 'OS', string $type_id = '1')
+    public function serverCreateType(string $type = 'OS', string $type_id = '1'): void
     {
         if ($type === 'OS') {
             $this->server_create_details = array_merge($this->server_create_details, array(
@@ -441,7 +441,7 @@ class VultrAPI
         ));
     }
 
-    public function serverCreateOptions()
+    public function serverCreateOptions(): void
     {//Shows create server options
         echo 'serverCreateDC(int $dc_id)<br>';
         echo 'serverCreatePlan(int $plan_id)<br>';
@@ -463,7 +463,7 @@ class VultrAPI
         echo 'serverCreate(array $this->returnServerCreateArray())<br>';
     }
 
-    public function returnServerCreateArray()
+    public function returnServerCreateArray(): false|string
     {
         return json_encode($this->server_create_details);
     }
@@ -804,7 +804,7 @@ class VultrAPI
     {
         $data = json_decode($this->listOS(), true);
         foreach ($data['os'] as $os) {
-            if ($os['id'] == $os_id) {
+            if ($os['id'] === $os_id) {
                 return $os['name'];
             }
         }
@@ -902,22 +902,22 @@ class VultrAPI
     /*
      * HELPER FUNCTIONS
     */
-    public function convertBytes(int $bytes, string $convert_to = 'GB', bool $format = true, int $decimals = 2)
+    public function convertBytes(int $bytes, string $convert_to = 'GB', bool $format = true, int $decimals = 2): float|int
     {
-        if ($convert_to == 'GB') {
+        if ($convert_to === 'GB') {
             $value = ($bytes / 1073741824);
-        } elseif ($convert_to == 'MB') {
+        } elseif ($convert_to === 'MB') {
             $value = ($bytes / 1048576);
-        } elseif ($convert_to == 'KB') {
+        } elseif ($convert_to === 'KB') {
             $value = ($bytes / 1024);
         } else {
             $value = $bytes;
         }
         if ($format) {
-            return number_format($value, $decimals);
-        } else {
-            return $value;
+            return (float)number_format($value, $decimals);
         }
+
+        return $value;
     }
 
     public function boolToInt(bool $bool): int
@@ -926,8 +926,9 @@ class VultrAPI
         return $int;
     }
 
-    public function saveOutput(string $save_as, $output)
+    public function saveOutput(string $save_as, $output): false|int
     {
-        file_put_contents($save_as, $output);
+        return file_put_contents($save_as, $output);
     }
+
 }
