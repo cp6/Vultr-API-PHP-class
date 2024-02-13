@@ -1,7 +1,7 @@
 # Vultr API v2 PHP class wrapper
 
 
-Simple to use PHP class built for the [Vultr API](https://www.vultr.com/api). Updated for the API v2! Do all server actions along with account services like Block storage, backups, DNS, network, snapshots, Custom ISO's, saved ip addresses and much more.
+PHP class built for the [Vultr API v2](https://www.vultr.com/api). Do all server actions along with Vultr account services like Block storage, backups, DNS, network, snapshots, Custom ISO's, saved ip addresses and much more.
 
 
 ### Usage
