@@ -8,7 +8,6 @@ class VultrAPI
     protected const API_KEY = 'XYZ-ABC-123';//Put your Vultr API key here
     protected int $instance_id;//Service id set with: setSubid()
     protected array $server_create_details = [];
-    protected $call_data;
 
     public function apiKeyHeader(): array
     {
