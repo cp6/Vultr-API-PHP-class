@@ -807,7 +807,7 @@ class VultrAPI
                 return $os['name'];
             }
         }
-        return "None found os id $os_id";
+        return "None found for OS id $os_id";
     }
 
     /*
@@ -921,13 +921,7 @@ class VultrAPI
 
     public function boolToInt(bool $bool): int
     {
-        ($bool) ? $int = 1 : $int = 0;
-        return $int;
-    }
-
-    public function saveOutput(string $save_as, $output): false|int
-    {
-        return file_put_contents($save_as, $output);
+        return ($bool) ? 1 : 0;
     }
 
 }
