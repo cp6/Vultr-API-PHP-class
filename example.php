@@ -8,7 +8,7 @@ $vultr = new VultrAPI();
 echo $vultr->listServers();//Data for all current account instances
 
 
-$vultr->setSubid('31828385');//Must be set if interacting with a single instance actions
+$vultr->setSubId('31828385');//Must be set if interacting with a single instance actions
 $vultr->serverReboot(); //Reboots/restarts instance with id:31828385
 
 
