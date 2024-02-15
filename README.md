@@ -11,7 +11,7 @@ Install with:
 composer require corbpie/vultr-api-v2
 ```
 
-Use like:
+Example usage:
 ```php
 <?php
 require __DIR__ . '/vendor/autoload.php';
@@ -32,7 +32,7 @@ echo $vultr->listServers();//Lists all server instances for account
 
 Vultr API key obtained form your Vultr account menu.
 
-Add your Vultr API key line 7: ```src/class.php```
+Add your Vultr API key line 8: ```src/class.php```
 
 ### Examples
 
