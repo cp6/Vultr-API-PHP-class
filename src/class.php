@@ -16,7 +16,7 @@ class VultrAPI
         return ["Authorization: Bearer " . self::API_KEY, "Content-Type: application/json"];
     }
 
-    public function doCurl(string $url, string $type = 'GET', bool $return_http_code = false, array $headers = [], array $post_fields = [])
+    public function doCall(string $url, string $type = 'GET', bool $return_http_code = false, array $headers = [], array $post_fields = [])
     {
         if ($this->requires_sub_id && !isset($this->instance_id)) {
             return ["No sub id is set, it is needed to perform this action."];
@@ -62,7 +62,7 @@ class VultrAPI
      */
     public function listAccountInfo()
     {
-        return $this->doCurl("v2/account", "GET", false, $this->apiKeyHeader());
+        return $this->doCall("v2/account", "GET", false, $this->apiKeyHeader());
     }
 
     public function accountRemainingCredit(): float
@@ -77,61 +77,61 @@ class VultrAPI
      */
     public function listServers()
     {
-        return $this->doCurl("v2/instances", "GET", false, $this->apiKeyHeader());
+        return $this->doCall("v2/instances", "GET", false, $this->apiKeyHeader());
     }
 
     public function listServer()
     {
         $this->requires_sub_id = true;
-        return $this->doCurl("v2/instances/$this->instance_id", "GET", false, $this->apiKeyHeader());
+        return $this->doCall("v2/instances/$this->instance_id", "GET", false, $this->apiKeyHeader());
     }
 
     public function listIpv4()
     {
         $this->requires_sub_id = true;
-        return $this->doCurl("v2/instances/$this->instance_id/ipv4", 'GET', false, $this->apiKeyHeader());
+        return $this->doCall("v2/instances/$this->instance_id/ipv4", 'GET', false, $this->apiKeyHeader());
     }
 
     public function listIpv6()
     {
         $this->requires_sub_id = true;
-        return $this->doCurl("v2/instances/$this->instance_id/ipv6", 'GET', false, $this->apiKeyHeader());
+        return $this->doCall("v2/instances/$this->instance_id/ipv6", 'GET', false, $this->apiKeyHeader());
     }
 
     public function listNeighbors()
     {
         $this->requires_sub_id = true;
-        return $this->doCurl("v2/instances/$this->instance_id/neighbors", 'GET', false, $this->apiKeyHeader());
+        return $this->doCall("v2/instances/$this->instance_id/neighbors", 'GET', false, $this->apiKeyHeader());
     }
 
     public function instanceReboot()
     {
         $this->requires_sub_id = true;
-        return $this->doCurl("v2/instances/$this->instance_id/reboot", 'POST', true, $this->apiKeyHeader());
+        return $this->doCall("v2/instances/$this->instance_id/reboot", 'POST', true, $this->apiKeyHeader());
     }
 
     public function instanceStart()
     {
         $this->requires_sub_id = true;
-        return $this->doCurl("v2/instances/$this->instance_id/start", 'POST', true, $this->apiKeyHeader());
+        return $this->doCall("v2/instances/$this->instance_id/start", 'POST', true, $this->apiKeyHeader());
     }
 
     public function serverStop()
     {
         $this->requires_sub_id = true;
-        return $this->doCurl("v2/instances/$this->instance_id/halt", 'POST', true, $this->apiKeyHeader());
+        return $this->doCall("v2/instances/$this->instance_id/halt", 'POST', true, $this->apiKeyHeader());
     }
 
     public function instanceDestroy()
     {
         $this->requires_sub_id = true;
-        return $this->doCurl("v2/instances/$this->instance_id", 'DELETE', true, $this->apiKeyHeader());
+        return $this->doCall("v2/instances/$this->instance_id", 'DELETE', true, $this->apiKeyHeader());
     }
 
     public function instanceUpdate(array $values = [])
     {
         $this->requires_sub_id = true;
-        return $this->doCurl("v2/instances/$this->instance_id", 'PATCH', true, $this->apiKeyHeader(), $values);
+        return $this->doCall("v2/instances/$this->instance_id", 'PATCH', true, $this->apiKeyHeader(), $values);
     }
 
     public function instanceReinstall(string $hostname = '')
@@ -142,196 +142,196 @@ class VultrAPI
         } else {
             $post = array();
         }
-        return $this->doCurl("v2/instances/$this->instance_id/reinstall", 'POST', true, $this->apiKeyHeader(), $post);
+        return $this->doCall("v2/instances/$this->instance_id/reinstall", 'POST', true, $this->apiKeyHeader(), $post);
     }
 
     public function instanceSetLabel(string $label)
     {
         $this->requires_sub_id = true;
-        return $this->doCurl("v2/instances/$this->instance_id", 'PATCH', true, $this->apiKeyHeader(), array('label' => $label));
+        return $this->doCall("v2/instances/$this->instance_id", 'PATCH', true, $this->apiKeyHeader(), array('label' => $label));
     }
 
     public function instanceSetTag(string $tag)
     {
         $this->requires_sub_id = true;
-        return $this->doCurl("v2/instances/$this->instance_id", 'PATCH', true, $this->apiKeyHeader(), array('tag' => $tag));
+        return $this->doCall("v2/instances/$this->instance_id", 'PATCH', true, $this->apiKeyHeader(), array('tag' => $tag));
     }
 
     public function instanceGetBW()
     {
         $this->requires_sub_id = true;
-        return $this->doCurl("v2/instances/$this->instance_id/bandwidth", 'GET', false, $this->apiKeyHeader());
+        return $this->doCall("v2/instances/$this->instance_id/bandwidth", 'GET', false, $this->apiKeyHeader());
     }
 
     public function instanceChangeApp(int $app_id)
     {
         $this->requires_sub_id = true;
-        return $this->doCurl("v2/instances/$this->instance_id", 'PATCH', true, $this->apiKeyHeader(), array('app_id' => $app_id));
+        return $this->doCall("v2/instances/$this->instance_id", 'PATCH', true, $this->apiKeyHeader(), array('app_id' => $app_id));
     }
 
     public function instanceBackupDisable()
     {
         $this->requires_sub_id = true;
-        return $this->doCurl("v2/instances/$this->instance_id", 'PATCH', true, $this->apiKeyHeader(), array('backups' => 'disable'));
+        return $this->doCall("v2/instances/$this->instance_id", 'PATCH', true, $this->apiKeyHeader(), array('backups' => 'disable'));
     }
 
     public function instanceBackupEnable()
     {
         $this->requires_sub_id = true;
-        return $this->doCurl("v2/instances/$this->instance_id", 'PATCH', true, $this->apiKeyHeader(), array('backups' => 'enable'));
+        return $this->doCall("v2/instances/$this->instance_id", 'PATCH', true, $this->apiKeyHeader(), array('backups' => 'enable'));
     }
 
     public function instanceBackupSchedule()
     {
         $this->requires_sub_id = true;
-        return $this->doCurl("v2/instances/$this->instance_id/backup-schedule", 'GET', false, $this->apiKeyHeader());
+        return $this->doCall("v2/instances/$this->instance_id/backup-schedule", 'GET', false, $this->apiKeyHeader());
     }
 
     public function instanceSetBackupSchedule(string $cron_type, int $hour, int $day_of_week, int $day_of_month)// daily|weekly|monthly|daily_alt_even|daily_alt_odd
     {
         $this->requires_sub_id = true;
         $post = array("type" => $cron_type, "hour" => $hour, "dow" => $day_of_week, "dom" => $day_of_month);
-        return $this->doCurl("v2/instances/$this->instance_id/backup-schedule", 'POST', false, $this->apiKeyHeader(), $post);
+        return $this->doCall("v2/instances/$this->instance_id/backup-schedule", 'POST', false, $this->apiKeyHeader(), $post);
     }
 
     public function instanceCreateIpv4(bool $reboot = false)
     {
         $this->requires_sub_id = true;
-        return $this->doCurl("v2/instance/$this->instance_id/ipv4", 'POST', false, $this->apiKeyHeader(), array('reboot' => $reboot));
+        return $this->doCall("v2/instance/$this->instance_id/ipv4", 'POST', false, $this->apiKeyHeader(), array('reboot' => $reboot));
     }
 
     public function instanceDestroyIpv4(string $ip)
     {
         $this->requires_sub_id = true;
-        return $this->doCurl("v2/instance/$this->instance_id/ipv4/$ip", 'DELETE', true, $this->apiKeyHeader());
+        return $this->doCall("v2/instance/$this->instance_id/ipv4/$ip", 'DELETE', true, $this->apiKeyHeader());
     }
 
     public function instanceFirewallGroup(string $firewall_group_id)
     {
         $this->requires_sub_id = true;
-        return $this->doCurl("v2/instances/$this->instance_id", 'PATCH', true, $this->apiKeyHeader(), array('firewall_group_id' => $firewall_group_id));
+        return $this->doCall("v2/instances/$this->instance_id", 'PATCH', true, $this->apiKeyHeader(), array('firewall_group_id' => $firewall_group_id));
     }
 
     public function instanceUserData()
     {
         $this->requires_sub_id = true;
-        return $this->doCurl("v2/instances/$this->instance_id/user-data", 'GET', false, $this->apiKeyHeader());
+        return $this->doCall("v2/instances/$this->instance_id/user-data", 'GET', false, $this->apiKeyHeader());
     }
 
     public function instanceAttachISO(string $iso_id)
     {
         $this->requires_sub_id = true;
-        return $this->doCurl("v2/instances/$this->instance_id/iso/attach", 'POST', false, $this->apiKeyHeader(), array('iso_id' => $iso_id));
+        return $this->doCall("v2/instances/$this->instance_id/iso/attach", 'POST', false, $this->apiKeyHeader(), array('iso_id' => $iso_id));
     }
 
     public function instanceDetachISO()
     {
         $this->requires_sub_id = true;
-        return $this->doCurl("v2/instances/$this->instance_id/iso/detach", 'POST', false, $this->apiKeyHeader());
+        return $this->doCall("v2/instances/$this->instance_id/iso/detach", 'POST', false, $this->apiKeyHeader());
     }
 
     public function instanceISOInfo()
     {
         $this->requires_sub_id = true;
-        return $this->doCurl("v2/instances/$this->instance_id/iso", 'GET', false, $this->apiKeyHeader());
+        return $this->doCall("v2/instances/$this->instance_id/iso", 'GET', false, $this->apiKeyHeader());
     }
 
     public function instanceOSChange(string $os_id)
     {
         $this->requires_sub_id = true;
-        return $this->doCurl("v2/instances/$this->instance_id", 'PATCH', true, $this->apiKeyHeader(), array('os_id' => $os_id));
+        return $this->doCall("v2/instances/$this->instance_id", 'PATCH', true, $this->apiKeyHeader(), array('os_id' => $os_id));
     }
 
     public function instanceOSChangeList()
     {
         $this->requires_sub_id = true;
-        return $this->doCurl("v2/instances/$this->instance_id/upgrades", 'GET', false, $this->apiKeyHeader(), array('type' => 'os'));
+        return $this->doCall("v2/instances/$this->instance_id/upgrades", 'GET', false, $this->apiKeyHeader(), array('type' => 'os'));
     }
 
     public function instancePrivateNetworkAttach(string $network_id)
     {
         $this->requires_sub_id = true;
-        return $this->doCurl("v2/instances/$this->instance_id/private-networks/attach", 'POST', true, $this->apiKeyHeader(), array('network_id' => $network_id));
+        return $this->doCall("v2/instances/$this->instance_id/private-networks/attach", 'POST', true, $this->apiKeyHeader(), array('network_id' => $network_id));
     }
 
     public function instancePrivateNetworkDetach(string $network_id)
     {
         $this->requires_sub_id = true;
-        return $this->doCurl("v2/instances/$this->instance_id/private-networks/detach", 'POST', true, $this->apiKeyHeader(), array('network_id' => $network_id));
+        return $this->doCall("v2/instances/$this->instance_id/private-networks/detach", 'POST', true, $this->apiKeyHeader(), array('network_id' => $network_id));
     }
 
     public function instancePrivateNetworkDisable(string $network_id)
     {
         $this->requires_sub_id = true;
-        return $this->doCurl("v2/instances/$this->instance_id", 'PATCH', true, $this->apiKeyHeader(), array('enable_private_network' => false));
+        return $this->doCall("v2/instances/$this->instance_id", 'PATCH', true, $this->apiKeyHeader(), array('enable_private_network' => false));
     }
 
     public function instancePrivateNetworkEnable(string $network_id)
     {
         $this->requires_sub_id = true;
-        return $this->doCurl("v2/instances/$this->instance_id", 'PATCH', true, $this->apiKeyHeader(), array('enable_private_network' => true));
+        return $this->doCall("v2/instances/$this->instance_id", 'PATCH', true, $this->apiKeyHeader(), array('enable_private_network' => true));
     }
 
     public function instanceListPrivateNetworks()
     {
         $this->requires_sub_id = true;
-        return $this->doCurl("v2/instances/$this->instance_id/private-networks", 'GET', false, $this->apiKeyHeader());
+        return $this->doCall("v2/instances/$this->instance_id/private-networks", 'GET', false, $this->apiKeyHeader());
     }
 
     public function instanceRestoreBackup(string $backup_id)
     {
         $this->requires_sub_id = true;
         $post = array("backup_id" => $backup_id);
-        return $this->doCurl("v2/instances/$this->instance_id/restore", 'POST', true, $this->apiKeyHeader(), $post);
+        return $this->doCall("v2/instances/$this->instance_id/restore", 'POST', true, $this->apiKeyHeader(), $post);
     }
 
     public function instanceRestoreSnapshot(string $snapshot_id)
     {
         $this->requires_sub_id = true;
         $post = array("snapshot_id" => $snapshot_id);
-        return $this->doCurl("v2/instances/$this->instance_id/restore", 'POST', true, $this->apiKeyHeader(), $post);
+        return $this->doCall("v2/instances/$this->instance_id/restore", 'POST', true, $this->apiKeyHeader(), $post);
     }
 
     public function instanceUpgradePlan(string $vpsplan_id)
     {
         $this->requires_sub_id = true;
-        return $this->doCurl("v2/instances/$this->instance_id", 'PATCH', true, $this->apiKeyHeader(), array('plan' => $vpsplan_id));
+        return $this->doCall("v2/instances/$this->instance_id", 'PATCH', true, $this->apiKeyHeader(), array('plan' => $vpsplan_id));
     }
 
     public function instanceSetReverseIpv4(string $ip, string $reverse)
     {
         $this->requires_sub_id = true;
-        return $this->doCurl("v2/instances/$this->instance_id/ipv4/reverse", 'POST', true, $this->apiKeyHeader(), array("ip" => $ip, "reverse" => $reverse));
+        return $this->doCall("v2/instances/$this->instance_id/ipv4/reverse", 'POST', true, $this->apiKeyHeader(), array("ip" => $ip, "reverse" => $reverse));
     }
 
     public function instanceSetReverseIpv6(string $ip, string $reverse)
     {
         $this->requires_sub_id = true;
-        return $this->doCurl("v2/instances/$this->instance_id/ipv6/reverse", 'POST', true, $this->apiKeyHeader(), array("ip" => $ip, "reverse" => $reverse));
+        return $this->doCall("v2/instances/$this->instance_id/ipv6/reverse", 'POST', true, $this->apiKeyHeader(), array("ip" => $ip, "reverse" => $reverse));
     }
 
     public function instanceListReverseIpv4()
     {
         $this->requires_sub_id = true;
-        return $this->doCurl("v2/instances/$this->instance_id/ipv4/reverse", 'GET', false, $this->apiKeyHeader());
+        return $this->doCall("v2/instances/$this->instance_id/ipv4/reverse", 'GET', false, $this->apiKeyHeader());
     }
 
     public function instanceListReverseIpv6()
     {
         $this->requires_sub_id = true;
-        return $this->doCurl("v2/instances/$this->instance_id/ipv6/reverse", 'GET', false, $this->apiKeyHeader());
+        return $this->doCall("v2/instances/$this->instance_id/ipv6/reverse", 'GET', false, $this->apiKeyHeader());
     }
 
     public function instanceDeleteReverseIpv4(string $ip)
     {
         $this->requires_sub_id = true;
-        return $this->doCurl("v2/instances/$this->instance_id/ipv4/reverse/$ip", 'DELETE', false, $this->apiKeyHeader());
+        return $this->doCall("v2/instances/$this->instance_id/ipv4/reverse/$ip", 'DELETE', false, $this->apiKeyHeader());
     }
 
     public function instanceDeleteReverseIpv6(string $ip)
     {
         $this->requires_sub_id = true;
-        return $this->doCurl("v2/instances/$this->instance_id/ipv6/reverse/$ip", 'DELETE', false, $this->apiKeyHeader());
+        return $this->doCall("v2/instances/$this->instance_id/ipv6/reverse/$ip", 'DELETE', false, $this->apiKeyHeader());
     }
 
     /*
@@ -468,7 +468,7 @@ class VultrAPI
     public function serverCreate()
     {
         $post_options = $this->server_create_details;
-        return $this->doCurl("v2/instances", 'POST', false, $this->apiKeyHeader(), $post_options);
+        return $this->doCall("v2/instances", 'POST', false, $this->apiKeyHeader(), $post_options);
     }
 
     /*
@@ -476,12 +476,12 @@ class VultrAPI
      */
     public function listBackups()
     {
-        return $this->doCurl("v2/backups", 'GET', false, $this->apiKeyHeader());
+        return $this->doCall("v2/backups", 'GET', false, $this->apiKeyHeader());
     }
 
     public function getBackupData(string $backup_id)
     {
-        return $this->doCurl("v2/backups/$backup_id", 'GET', false, $this->apiKeyHeader());
+        return $this->doCall("v2/backups/$backup_id", 'GET', false, $this->apiKeyHeader());
     }
 
     /*
@@ -489,34 +489,34 @@ class VultrAPI
      */
     public function listSnapshots()
     {
-        return $this->doCurl("v2/snapshots", 'GET', false, $this->apiKeyHeader());
+        return $this->doCall("v2/snapshots", 'GET', false, $this->apiKeyHeader());
     }
 
     public function getSnapshotData(string $snapshot_id)
     {
-        return $this->doCurl("v2/snapshots/$snapshot_id", 'GET', false, $this->apiKeyHeader());
+        return $this->doCall("v2/snapshots/$snapshot_id", 'GET', false, $this->apiKeyHeader());
     }
 
     public function createSnapshot(string $desc = 'DESC VAR EMPTY')
     {
         $this->requires_sub_id = true;
         $post = array("instance_id" => $this->instance_id, "description" => $desc);
-        return $this->doCurl("v2/snapshots", 'POST', false, $this->apiKeyHeader(), $post);
+        return $this->doCall("v2/snapshots", 'POST', false, $this->apiKeyHeader(), $post);
     }
 
     public function deleteSnapshot(string $snapshot_id)
     {
-        return $this->doCurl("v2/snapshots/$snapshot_id", 'DELETE', true, $this->apiKeyHeader());
+        return $this->doCall("v2/snapshots/$snapshot_id", 'DELETE', true, $this->apiKeyHeader());
     }
 
     public function createSnapshotFromURL(string $url)
     {
-        return $this->doCurl("v2/snapshot/create-from-url", 'POST', false, $this->apiKeyHeader(), array("url" => $url));
+        return $this->doCall("v2/snapshot/create-from-url", 'POST', false, $this->apiKeyHeader(), array("url" => $url));
     }
 
     public function updateSnapshot(string $snapshot_id, string $description)
     {
-        return $this->doCurl("v2/snapshots/$snapshot_id", 'PUT', false, $this->apiKeyHeader(), array("description" => $description));
+        return $this->doCall("v2/snapshots/$snapshot_id", 'PUT', false, $this->apiKeyHeader(), array("description" => $description));
     }
 
     /*
@@ -525,29 +525,29 @@ class VultrAPI
     public function createStartupScript(string $script_name, string $type, string $script)
     {
         $post = array("name" => $script_name, "type" => $type, "script" => $script);
-        return $this->doCurl("v2/startup-scripts", 'POST', false, $this->apiKeyHeader(), $post);
+        return $this->doCall("v2/startup-scripts", 'POST', false, $this->apiKeyHeader(), $post);
     }
 
     public function destroyStartupScript(string $script_id)
     {
         $post = array("startup-id" => $script_id);
-        return $this->doCurl("v2/startup-scripts/destroy", 'DELETE', true, $this->apiKeyHeader(), $post);
+        return $this->doCall("v2/startup-scripts/destroy", 'DELETE', true, $this->apiKeyHeader(), $post);
     }
 
     public function updateStartupScript(string $script_id, string $name, string $type, string $script)
     {
         $post = array("startup-id" => $script_id, "name" => $name, "type" => $type, "script" => $script);
-        return $this->doCurl("v2/startup-scripts/update", 'PATCH', true, $this->apiKeyHeader(), $post);
+        return $this->doCall("v2/startup-scripts/update", 'PATCH', true, $this->apiKeyHeader(), $post);
     }
 
     public function listStartupScripts()
     {
-        return $this->doCurl("v2/startup-scripts", 'GET', false, $this->apiKeyHeader());
+        return $this->doCall("v2/startup-scripts", 'GET', false, $this->apiKeyHeader());
     }
 
     public function getStartupScriptData(string $script_id)
     {
-        return $this->doCurl("v2/startup-scripts/$script_id", 'GET', false, $this->apiKeyHeader());
+        return $this->doCall("v2/startup-scripts/$script_id", 'GET', false, $this->apiKeyHeader());
     }
 
     /*
@@ -556,28 +556,28 @@ class VultrAPI
     public function createSSHKey(string $key_name, string $key)
     {
         $post = array("name" => $key_name, "ssh_key" => $key);
-        return $this->doCurl("v2/ssh-keys", 'POST', false, $this->apiKeyHeader(), $post);
+        return $this->doCall("v2/ssh-keys", 'POST', false, $this->apiKeyHeader(), $post);
     }
 
     public function destroySSHKey(string $ssh_key_id)
     {
-        return $this->doCurl("v2/ssh-keys/$ssh_key_id", 'DELETE', true, $this->apiKeyHeader());
+        return $this->doCall("v2/ssh-keys/$ssh_key_id", 'DELETE', true, $this->apiKeyHeader());
     }
 
     public function updateSSHKey(string $ssh_key_id, string $key_name, string $key)
     {
         $post = array("name" => $key_name, "ssh_key" => $key);
-        return $this->doCurl("v2/ssh-keys/$ssh_key_id", 'PATCH', true, $this->apiKeyHeader(), $post);
+        return $this->doCall("v2/ssh-keys/$ssh_key_id", 'PATCH', true, $this->apiKeyHeader(), $post);
     }
 
     public function listSSHKeys()
     {
-        return $this->doCurl("v2/ssh-keys", 'GET', false, $this->apiKeyHeader());
+        return $this->doCall("v2/ssh-keys", 'GET', false, $this->apiKeyHeader());
     }
 
     public function getSSHKeyData(string $ssh_key_id)
     {
-        return $this->doCurl("v2/ssh-keys/$ssh_key_id", 'GET', false, $this->apiKeyHeader());
+        return $this->doCall("v2/ssh-keys/$ssh_key_id", 'GET', false, $this->apiKeyHeader());
     }
 
     /*
@@ -585,38 +585,38 @@ class VultrAPI
      */
     public function listReservedIps()
     {
-        return $this->doCurl("v2/reserved-ips", 'GET', false, $this->apiKeyHeader());
+        return $this->doCall("v2/reserved-ips", 'GET', false, $this->apiKeyHeader());
     }
 
     public function attachIp(string $ip_address)
     {
         $this->requires_sub_id = true;
         $post = array("instance_id" => $this->instance_id);
-        return $this->doCurl("v2/reserved-ips/$ip_address/attach", 'POST', true, $this->apiKeyHeader(), $post);
+        return $this->doCall("v2/reserved-ips/$ip_address/attach", 'POST', true, $this->apiKeyHeader(), $post);
     }
 
     public function convertIp(string $ip_address, string $label)
     {
         $this->requires_sub_id = true;
         $post = array("label" => $label, "ip_address" => $ip_address);
-        return $this->doCurl("v2/reserved-ips/convert", 'POST', false, $this->apiKeyHeader(), $post);
+        return $this->doCall("v2/reserved-ips/convert", 'POST', false, $this->apiKeyHeader(), $post);
     }
 
     public function createIp(string $ip_type, string $region, string $label)
     {
         $post = array("region" => $region, "ip_type" => $ip_type, "label" => $label);
-        return $this->doCurl("v2/reserved-ips", 'POST', false, $this->apiKeyHeader(), $post);
+        return $this->doCall("v2/reserved-ips", 'POST', false, $this->apiKeyHeader(), $post);
     }
 
     public function destroyIp(string $ip_address)
     {
-        return $this->doCurl("v2/reserved-ips/$ip_address", 'DELETE', true, $this->apiKeyHeader());
+        return $this->doCall("v2/reserved-ips/$ip_address", 'DELETE', true, $this->apiKeyHeader());
     }
 
     public function detachIp(string $ip_address)
     {
         $this->requires_sub_id = true;
-        return $this->doCurl("v2/reserved-ips/$ip_address/detach", 'POST', true, $this->apiKeyHeader());
+        return $this->doCall("v2/reserved-ips/$ip_address/detach", 'POST', true, $this->apiKeyHeader());
     }
 
     /*
@@ -624,27 +624,27 @@ class VultrAPI
      */
     public function listISOs()
     {
-        return $this->doCurl("v2/iso", 'GET', false, $this->apiKeyHeader());
+        return $this->doCall("v2/iso", 'GET', false, $this->apiKeyHeader());
     }
 
     public function getISOData(string $iso_id)
     {
-        return $this->doCurl("v2/iso/$iso_id", 'GET', false, $this->apiKeyHeader());
+        return $this->doCall("v2/iso/$iso_id", 'GET', false, $this->apiKeyHeader());
     }
 
     public function listPublicISOs()
     {
-        return $this->doCurl("v2/iso-public", 'GET', false, $this->apiKeyHeader());
+        return $this->doCall("v2/iso-public", 'GET', false, $this->apiKeyHeader());
     }
 
     public function uploadISO(string $iso_url)
     {
-        return $this->doCurl("v2/iso", 'POST', false, $this->apiKeyHeader(), array("url" => $iso_url));
+        return $this->doCall("v2/iso", 'POST', false, $this->apiKeyHeader(), array("url" => $iso_url));
     }
 
     public function destroyISO(string $iso_id)
     {
-        return $this->doCurl("v2/iso/$iso_id", 'DELETE', true, $this->apiKeyHeader());
+        return $this->doCall("v2/iso/$iso_id", 'DELETE', true, $this->apiKeyHeader());
     }
 
     /*
@@ -652,48 +652,48 @@ class VultrAPI
      */
     public function listBlockStorage()
     {
-        return $this->doCurl("v2/blocks", 'GET', false, $this->apiKeyHeader());
+        return $this->doCall("v2/blocks", 'GET', false, $this->apiKeyHeader());
     }
 
     public function getBlockStorageData(string $block_id)
     {
-        return $this->doCurl("v2/blocks/$block_id", 'GET', false, $this->apiKeyHeader());
+        return $this->doCall("v2/blocks/$block_id", 'GET', false, $this->apiKeyHeader());
     }
 
     public function createBlockStorage(string $region_id, int $size_gb, string $label = '')
     {
         $values = array('region' => $region_id, 'size_gb' => $size_gb, 'label' => $label);
-        return $this->doCurl("v2/blocks", 'POST', false, $this->apiKeyHeader(), $values);
+        return $this->doCall("v2/blocks", 'POST', false, $this->apiKeyHeader(), $values);
     }
 
     public function attachBlockStorage(string $block_id, bool $live)
     {
         $this->requires_sub_id = true;
         $post = array("instance_id" => $this->instance_id, "live" => $live);
-        return $this->doCurl("v2/blocks/$block_id/attach", 'POST', true, $this->apiKeyHeader(), $post);
+        return $this->doCall("v2/blocks/$block_id/attach", 'POST', true, $this->apiKeyHeader(), $post);
     }
 
     public function deleteBlockStorage(string $block_id)
     {
-        return $this->doCurl("v2/blocks/$block_id", 'DELETE', true, $this->apiKeyHeader());
+        return $this->doCall("v2/blocks/$block_id", 'DELETE', true, $this->apiKeyHeader());
     }
 
     public function detachBlockStorage(string $block_id, bool $live = true)
     {
         $post = array("live" => $live);
-        return $this->doCurl("v2/blocks/$block_id/detach", 'POST', true, $this->apiKeyHeader(), $post);
+        return $this->doCall("v2/blocks/$block_id/detach", 'POST', true, $this->apiKeyHeader(), $post);
     }
 
     public function labelBlockStorage(string $block_id, string $label)
     {
         $post = array("label" => $label);
-        return $this->doCurl("v2/blocks/$block_id", 'PATCH', true, $this->apiKeyHeader(), $post);
+        return $this->doCall("v2/blocks/$block_id", 'PATCH', true, $this->apiKeyHeader(), $post);
     }
 
     public function resizeBlockStorage(string $block_id, int $size_gb)
     {
         $post = array("size_gb" => $size_gb);
-        return $this->doCurl("v2/blocks/$block_id", 'PATCH', true, $this->apiKeyHeader(), $post);
+        return $this->doCall("v2/blocks/$block_id", 'PATCH', true, $this->apiKeyHeader(), $post);
     }
 
     /*
@@ -701,66 +701,66 @@ class VultrAPI
      */
     public function listDNS()
     {
-        return $this->doCurl("v2/domains", 'GET', false, $this->apiKeyHeader());
+        return $this->doCall("v2/domains", 'GET', false, $this->apiKeyHeader());
     }
 
     public function getDNSData(string $domain)
     {
-        return $this->doCurl("v2/domains/$domain", 'GET', false, $this->apiKeyHeader());
+        return $this->doCall("v2/domains/$domain", 'GET', false, $this->apiKeyHeader());
     }
 
     public function dnsCreateDomain(string $domain, string $server_ip, bool $dns_sec = false)
     {
         $post = array("domain" => $domain, "serverip" => $server_ip, "dns_sec" => $dns_sec);
-        return $this->doCurl("v2/domains", 'POST', true, $this->apiKeyHeader(), $post);
+        return $this->doCall("v2/domains", 'POST', true, $this->apiKeyHeader(), $post);
     }
 
     public function dnsCreateRecord(string $domain, string $name, string $type, string $data)
     {
         $post = array("domain" => $domain, "name" => $name, "type" => $type, "data" => $data);
-        return $this->doCurl("v2/domains/$domain/record", 'POST', true, $this->apiKeyHeader(), $post);
+        return $this->doCall("v2/domains/$domain/record", 'POST', true, $this->apiKeyHeader(), $post);
     }
 
     public function dnsDeleteDomain(string $domain)
     {
-        return $this->doCurl("v2/domains", 'DELETE', true, $this->apiKeyHeader(), array("domain" => $domain));
+        return $this->doCall("v2/domains", 'DELETE', true, $this->apiKeyHeader(), array("domain" => $domain));
     }
 
     public function dnsDeleteRecord(string $domain, string $record_id)
     {
-        return $this->doCurl("v2/domains/$domain/record/$record_id", 'DELETE', true, $this->apiKeyHeader());
+        return $this->doCall("v2/domains/$domain/record/$record_id", 'DELETE', true, $this->apiKeyHeader());
     }
 
     public function dnsEnableDNSSEC(string $domain, string $status = 'enable')
     {
-        return $this->doCurl("v2/domains/$domain", 'PUT', true, $this->apiKeyHeader(), array("dns_sec" => $status));
+        return $this->doCall("v2/domains/$domain", 'PUT', true, $this->apiKeyHeader(), array("dns_sec" => $status));
     }
 
     public function dnsUpdateSOA(string $domain, string $nsprimary, string $email)
     {
         $post = array("nsprimary" => $nsprimary, "email" => $email);
-        return $this->doCurl("v2/domains/$domain/soa", 'PATCH', true, $this->apiKeyHeader(), $post);
+        return $this->doCall("v2/domains/$domain/soa", 'PATCH', true, $this->apiKeyHeader(), $post);
     }
 
     public function dnsUpdateRecord(string $domain, string $record_id, string $name, string $data)
     {
         $post = array("name" => $name, "data" => $data);
-        return $this->doCurl("v2/domains/$domain/record/$record_id", 'PATCH', true, $this->apiKeyHeader(), $post);
+        return $this->doCall("v2/domains/$domain/record/$record_id", 'PATCH', true, $this->apiKeyHeader(), $post);
     }
 
     public function dnsSOAINFO($domain)
     {
-        return $this->doCurl("v2/domains/$domain/soa", 'GET', false, $this->apiKeyHeader());
+        return $this->doCall("v2/domains/$domain/soa", 'GET', false, $this->apiKeyHeader());
     }
 
     public function dnsListRecordsDomain($domain)
     {
-        return $this->doCurl("v2/domains/$domain/records", 'GET', false, $this->apiKeyHeader());
+        return $this->doCall("v2/domains/$domain/records", 'GET', false, $this->apiKeyHeader());
     }
 
     public function dnsDNSSECInfo($domain)
     {
-        return $this->doCurl("v2/domains/$domain/dnssec", 'GET', false, $this->apiKeyHeader());
+        return $this->doCall("v2/domains/$domain/dnssec", 'GET', false, $this->apiKeyHeader());
     }
 
     /*
@@ -768,12 +768,12 @@ class VultrAPI
      */
     public function listPlans(string $type = 'all')// all|vc2|ssd|vdc2|dedicated|vc2z
     {
-        return $this->doCurl("v2/plans?type=$type", 'GET', false);
+        return $this->doCall("v2/plans?type=$type", 'GET', false);
     }
 
     public function listBareMetalPlans()
     {
-        return $this->doCurl("v2/plans-metal", 'GET', false);
+        return $this->doCall("v2/plans-metal", 'GET', false);
     }
 
     /*
@@ -781,12 +781,12 @@ class VultrAPI
      */
     public function listRegions()// List regions that only have plans available
     {
-        return $this->doCurl("v2/regions", 'GET', false);
+        return $this->doCall("v2/regions", 'GET', false);
     }
 
     public function regionAvailability(string $region_id, string $type = 'all')// all|vc2|ssd|vdc2|dedicated|vc2z
     {
-        return $this->doCurl("v2/regions/$region_id/availability", 'GET', false, [], array("type" => $type));
+        return $this->doCall("v2/regions/$region_id/availability", 'GET', false, [], array("type" => $type));
     }
 
     /*
@@ -794,7 +794,7 @@ class VultrAPI
      */
     public function listOS()
     {
-        return $this->doCurl("v2/os", 'GET', false);
+        return $this->doCall("v2/os", 'GET', false);
     }
 
     public function osName(int $os_id): string
@@ -813,7 +813,7 @@ class VultrAPI
      */
     public function listApps()
     {
-        return $this->doCurl("v2/applications", 'GET', false);
+        return $this->doCall("v2/applications", 'GET', false);
     }
 
     /*
@@ -821,12 +821,12 @@ class VultrAPI
      */
     public function getUsers()
     {
-        return $this->doCurl("v2/users", 'GET', false, $this->apiKeyHeader());
+        return $this->doCall("v2/users", 'GET', false, $this->apiKeyHeader());
     }
 
     public function listUser(string $user_id)
     {
-        return $this->doCurl("v2/users/$user_id", 'GET', false, $this->apiKeyHeader());
+        return $this->doCall("v2/users/$user_id", 'GET', false, $this->apiKeyHeader());
     }
 
     public function createUser(string $email, string $name, string $password, bool $api_enabled = false, array $acls = ['subscriptions_view'])
@@ -837,12 +837,12 @@ class VultrAPI
             "password" => $password,
             "api_enabled" => $api_enabled,
             "acls" => $acls);
-        return $this->doCurl("v2/users", 'POST', false, $this->apiKeyHeader(), $post);
+        return $this->doCall("v2/users", 'POST', false, $this->apiKeyHeader(), $post);
     }
 
     public function deleteUser(string $user_id)
     {
-        return $this->doCurl("v2/users/$user_id ", 'DELETE', true, $this->apiKeyHeader());
+        return $this->doCall("v2/users/$user_id ", 'DELETE', true, $this->apiKeyHeader());
     }
 
     public function updateUser(string $user_id, string $email, string $name, string $password, bool $api_enabled = false, array $acls = ['subscriptions_view'])
@@ -853,7 +853,7 @@ class VultrAPI
             "password" => $password,
             "api_enabled" => $api_enabled,
             "acls" => $acls);
-        return $this->doCurl("v2/users/$user_id", 'PATCH', true, $this->apiKeyHeader(), $post);
+        return $this->doCall("v2/users/$user_id", 'PATCH', true, $this->apiKeyHeader(), $post);
     }
 
     /*
@@ -861,39 +861,39 @@ class VultrAPI
      */
     public function listObjectStorage()
     {
-        return $this->doCurl("v2/object-storage", 'GET', false, $this->apiKeyHeader());
+        return $this->doCall("v2/object-storage", 'GET', false, $this->apiKeyHeader());
     }
 
     public function getObjectStorageData(string $obj_id)
     {
-        return $this->doCurl("v2/object-storage/$obj_id", 'GET', false, $this->apiKeyHeader());
+        return $this->doCall("v2/object-storage/$obj_id", 'GET', false, $this->apiKeyHeader());
     }
 
     public function listObjectStorageCluster()
     {
-        return $this->doCurl("v2/object-storage/clusters", 'GET', false);
+        return $this->doCall("v2/object-storage/clusters", 'GET', false);
     }
 
     public function createObjectStorage(int $cluster_id, string $label)
     {
         $post = array("cluster_id" => $cluster_id, "label" => $label);
-        return $this->doCurl("v2/object-storage", 'POST', false, $this->apiKeyHeader(), $post);
+        return $this->doCall("v2/object-storage", 'POST', false, $this->apiKeyHeader(), $post);
     }
 
     public function deleteObjectStorage(string $obj_id)
     {
-        return $this->doCurl("v2/object-storage/$obj_id", 'DELETE', true, $this->apiKeyHeader());
+        return $this->doCall("v2/object-storage/$obj_id", 'DELETE', true, $this->apiKeyHeader());
     }
 
     public function labelObjectStorage(string $label, string $obj_id)
     {
-        return $this->doCurl("v2/object-storage/$obj_id", 'PUT', true, $this->apiKeyHeader(), array("label" => $label));
+        return $this->doCall("v2/object-storage/$obj_id", 'PUT', true, $this->apiKeyHeader(), array("label" => $label));
     }
 
     public function s3keyRegenObjectStorage(string $obj_id)
     {
         $post = array("object-storage-id" => $obj_id);
-        return $this->doCurl("v2/object-storage/$obj_id/regenerate-keys", 'POST', false, $this->apiKeyHeader(), $post);
+        return $this->doCall("v2/object-storage/$obj_id/regenerate-keys", 'POST', false, $this->apiKeyHeader(), $post);
     }
 
     /*
