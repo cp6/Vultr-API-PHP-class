@@ -25,7 +25,7 @@ echo $vultr->listServers();//Lists all server instances for account
 
 ### Current version
 
-2.2 Updated for PHP version 8.2 16th Feb 2023 
+2.3 Feb 2024
 
 ### Requires
 * PHP 8.2
