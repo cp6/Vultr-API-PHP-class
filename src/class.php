@@ -68,8 +68,7 @@ class VultrAPI
     public function accountRemainingCredit(): float
     {
         $data = json_decode($this->listAccountInfo());
-        $balance = str_replace('-', '', $data->balance);
-        return ($balance - $data->pending_charges);
+        return (str_replace('-', '', $data->balance) - $data->pending_charges);
     }
 
     /*
@@ -138,9 +137,9 @@ class VultrAPI
     {
         $this->requires_sub_id = true;
         if (!empty($hostname)) {
-            $post = array("hostname" => $hostname);
+            $post = ["hostname" => $hostname];
         } else {
-            $post = array();
+            $post = [];
         }
         return $this->doCall("v2/instances/$this->instance_id/reinstall", 'POST', true, $this->apiKeyHeader(), $post);
     }
@@ -467,8 +466,7 @@ class VultrAPI
 
     public function serverCreate()
     {
-        $post_options = $this->server_create_details;
-        return $this->doCall("v2/instances", 'POST', false, $this->apiKeyHeader(), $post_options);
+        return $this->doCall("v2/instances", 'POST', false, $this->apiKeyHeader(), $this->server_create_details);
     }
 
     /*
