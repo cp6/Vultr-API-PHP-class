@@ -353,66 +353,66 @@ class VultrAPI
     public function serverCreateType(string $type = 'OS', string $type_id = '1'): void
     {
         if ($type === 'OS') {
-            $this->server_create_details = array_merge($this->server_create_details, array(
+            $this->server_create_details = array_merge($this->server_create_details, [
                 "os_id" => $type_id
-            ));
+            ]);
         } elseif ($type === 'SNAPSHOT') {
-            $this->server_create_details = array_merge($this->server_create_details, array(
+            $this->server_create_details = array_merge($this->server_create_details, [
                 "snapshot_id" => $type_id
-            ));
+            ]);
         } elseif ($type === 'ISO') {
-            $this->server_create_details = array_merge($this->server_create_details, array(
+            $this->server_create_details = array_merge($this->server_create_details, [
                 "os_id" => 159,
                 "iso_id" => $type_id
-            ));
+            ]);
         } elseif ($type === 'APP') {
-            $this->server_create_details = array_merge($this->server_create_details, array(
+            $this->server_create_details = array_merge($this->server_create_details, [
                 "os_id" => 186,
                 "app_id" => $type_id
-            ));
+            ]);
         }
     }
 
     public function serverCreateLabel(string $label)
     {
-        $this->server_create_details = array_merge($this->server_create_details, array(
+        $this->server_create_details = array_merge($this->server_create_details, [
             "label" => $label
-        ));
+        ]);
     }
 
     public function serverCreateHostname(string $hostname)
     {
-        $this->server_create_details = array_merge($this->server_create_details, array(
+        $this->server_create_details = array_merge($this->server_create_details, [
             "hostname " => $hostname
-        ));
+        ]);
     }
 
     public function serverCreateWithIpv4(string $ipv4)
     {
-        $this->server_create_details = array_merge($this->server_create_details, array(
+        $this->server_create_details = array_merge($this->server_create_details, [
             "reserved_ipv4 " => $ipv4
-        ));
+        ]);
     }
 
     public function serverCreateEnableIpv6(bool $ipv6 = true)
     {
-        $this->server_create_details = array_merge($this->server_create_details, array(
+        $this->server_create_details = array_merge($this->server_create_details, [
             "enable_ipv6 " => $ipv6
-        ));
+        ]);
     }
 
     public function serverCreateEnablePrivateNetwork(string $pn = 'yes')
     {
-        $this->server_create_details = array_merge($this->server_create_details, array(
+        $this->server_create_details = array_merge($this->server_create_details, [
             "enable_private_network " => $pn
-        ));
+        ]);
     }
 
     public function serverCreateStartScript(int $script_id)
     {
-        $this->server_create_details = array_merge($this->server_create_details, array(
+        $this->server_create_details = array_merge($this->server_create_details, [
             "script_id " => $script_id
-        ));
+        ]);
     }
 
     public function serverCreateIPXEURL(string $url)
@@ -509,12 +509,12 @@ class VultrAPI
 
     public function createSnapshotFromURL(string $url)
     {
-        return $this->doCall("v2/snapshot/create-from-url", 'POST', false, $this->apiKeyHeader(), array("url" => $url));
+        return $this->doCall("v2/snapshot/create-from-url", 'POST', false, $this->apiKeyHeader(), ["url" => $url]);
     }
 
     public function updateSnapshot(string $snapshot_id, string $description)
     {
-        return $this->doCall("v2/snapshots/$snapshot_id", 'PUT', false, $this->apiKeyHeader(), array("description" => $description));
+        return $this->doCall("v2/snapshots/$snapshot_id", 'PUT', false, $this->apiKeyHeader(), ["description" => $description]);
     }
 
     /*
@@ -534,7 +534,7 @@ class VultrAPI
 
     public function updateStartupScript(string $script_id, string $name, string $type, string $script)
     {
-        $post = array("startup-id" => $script_id, "name" => $name, "type" => $type, "script" => $script);
+        $post = ["startup-id" => $script_id, "name" => $name, "type" => $type, "script" => $script);
         return $this->doCall("v2/startup-scripts/update", 'PATCH', true, $this->apiKeyHeader(), $post);
     }
 
@@ -564,7 +564,7 @@ class VultrAPI
 
     public function updateSSHKey(string $ssh_key_id, string $key_name, string $key)
     {
-        $post = array("name" => $key_name, "ssh_key" => $key);
+        $post = ["name" => $key_name, "ssh_key" => $key];
         return $this->doCall("v2/ssh-keys/$ssh_key_id", 'PATCH', true, $this->apiKeyHeader(), $post);
     }
 
@@ -589,20 +589,20 @@ class VultrAPI
     public function attachIp(string $ip_address)
     {
         $this->requires_sub_id = true;
-        $post = array("instance_id" => $this->instance_id);
+        $post = ["instance_id" => $this->instance_id];
         return $this->doCall("v2/reserved-ips/$ip_address/attach", 'POST', true, $this->apiKeyHeader(), $post);
     }
 
     public function convertIp(string $ip_address, string $label)
     {
         $this->requires_sub_id = true;
-        $post = array("label" => $label, "ip_address" => $ip_address);
+        $post = ["label" => $label, "ip_address" => $ip_address];
         return $this->doCall("v2/reserved-ips/convert", 'POST', false, $this->apiKeyHeader(), $post);
     }
 
     public function createIp(string $ip_type, string $region, string $label)
     {
-        $post = array("region" => $region, "ip_type" => $ip_type, "label" => $label);
+        $post = ["region" => $region, "ip_type" => $ip_type, "label" => $label];
         return $this->doCall("v2/reserved-ips", 'POST', false, $this->apiKeyHeader(), $post);
     }
 
@@ -637,7 +637,7 @@ class VultrAPI
 
     public function uploadISO(string $iso_url)
     {
-        return $this->doCall("v2/iso", 'POST', false, $this->apiKeyHeader(), array("url" => $iso_url));
+        return $this->doCall("v2/iso", 'POST', false, $this->apiKeyHeader(), ["url" => $iso_url]);
     }
 
     public function destroyISO(string $iso_id)
@@ -660,14 +660,14 @@ class VultrAPI
 
     public function createBlockStorage(string $region_id, int $size_gb, string $label = '')
     {
-        $values = array('region' => $region_id, 'size_gb' => $size_gb, 'label' => $label);
+        $values = ['region' => $region_id, 'size_gb' => $size_gb, 'label' => $label];
         return $this->doCall("v2/blocks", 'POST', false, $this->apiKeyHeader(), $values);
     }
 
     public function attachBlockStorage(string $block_id, bool $live)
     {
         $this->requires_sub_id = true;
-        $post = array("instance_id" => $this->instance_id, "live" => $live);
+        $post = ["instance_id" => $this->instance_id, "live" => $live];
         return $this->doCall("v2/blocks/$block_id/attach", 'POST', true, $this->apiKeyHeader(), $post);
     }
 
