@@ -534,7 +534,7 @@ class VultrAPI
 
     public function updateStartupScript(string $script_id, string $name, string $type, string $script)
     {
-        $post = ["startup-id" => $script_id, "name" => $name, "type" => $type, "script" => $script);
+        $post = ["startup-id" => $script_id, "name" => $name, "type" => $type, "script" => $script];
         return $this->doCall("v2/startup-scripts/update", 'PATCH', true, $this->apiKeyHeader(), $post);
     }
 
@@ -678,19 +678,19 @@ class VultrAPI
 
     public function detachBlockStorage(string $block_id, bool $live = true)
     {
-        $post = array("live" => $live);
+        $post = ["live" => $live];
         return $this->doCall("v2/blocks/$block_id/detach", 'POST', true, $this->apiKeyHeader(), $post);
     }
 
     public function labelBlockStorage(string $block_id, string $label)
     {
-        $post = array("label" => $label);
+        $post = ["label" => $label];
         return $this->doCall("v2/blocks/$block_id", 'PATCH', true, $this->apiKeyHeader(), $post);
     }
 
     public function resizeBlockStorage(string $block_id, int $size_gb)
     {
-        $post = array("size_gb" => $size_gb);
+        $post = ["size_gb" => $size_gb];
         return $this->doCall("v2/blocks/$block_id", 'PATCH', true, $this->apiKeyHeader(), $post);
     }
 
@@ -709,19 +709,19 @@ class VultrAPI
 
     public function dnsCreateDomain(string $domain, string $server_ip, bool $dns_sec = false)
     {
-        $post = array("domain" => $domain, "serverip" => $server_ip, "dns_sec" => $dns_sec);
+        $post = ["domain" => $domain, "serverip" => $server_ip, "dns_sec" => $dns_sec];
         return $this->doCall("v2/domains", 'POST', true, $this->apiKeyHeader(), $post);
     }
 
     public function dnsCreateRecord(string $domain, string $name, string $type, string $data)
     {
-        $post = array("domain" => $domain, "name" => $name, "type" => $type, "data" => $data);
+        $post = ["domain" => $domain, "name" => $name, "type" => $type, "data" => $data];
         return $this->doCall("v2/domains/$domain/record", 'POST', true, $this->apiKeyHeader(), $post);
     }
 
     public function dnsDeleteDomain(string $domain)
     {
-        return $this->doCall("v2/domains", 'DELETE', true, $this->apiKeyHeader(), array("domain" => $domain));
+        return $this->doCall("v2/domains", 'DELETE', true, $this->apiKeyHeader(), ["domain" => $domain]);
     }
 
     public function dnsDeleteRecord(string $domain, string $record_id)
@@ -731,18 +731,18 @@ class VultrAPI
 
     public function dnsEnableDNSSEC(string $domain, string $status = 'enable')
     {
-        return $this->doCall("v2/domains/$domain", 'PUT', true, $this->apiKeyHeader(), array("dns_sec" => $status));
+        return $this->doCall("v2/domains/$domain", 'PUT', true, $this->apiKeyHeader(), ["dns_sec" => $status]);
     }
 
     public function dnsUpdateSOA(string $domain, string $nsprimary, string $email)
     {
-        $post = array("nsprimary" => $nsprimary, "email" => $email);
+        $post = ["nsprimary" => $nsprimary, "email" => $email];
         return $this->doCall("v2/domains/$domain/soa", 'PATCH', true, $this->apiKeyHeader(), $post);
     }
 
     public function dnsUpdateRecord(string $domain, string $record_id, string $name, string $data)
     {
-        $post = array("name" => $name, "data" => $data);
+        $post = ["name" => $name, "data" => $data];
         return $this->doCall("v2/domains/$domain/record/$record_id", 'PATCH', true, $this->apiKeyHeader(), $post);
     }
 
@@ -784,7 +784,7 @@ class VultrAPI
 
     public function regionAvailability(string $region_id, string $type = 'all')// all|vc2|ssd|vdc2|dedicated|vc2z
     {
-        return $this->doCall("v2/regions/$region_id/availability", 'GET', false, [], array("type" => $type));
+        return $this->doCall("v2/regions/$region_id/availability", 'GET', false, [], ["type" => $type]);
     }
 
     /*
@@ -829,12 +829,12 @@ class VultrAPI
 
     public function createUser(string $email, string $name, string $password, bool $api_enabled = false, array $acls = ['subscriptions_view'])
     {
-        $post = array(
+        $post = [
             "email" => $email,
             "name" => $name,
             "password" => $password,
             "api_enabled" => $api_enabled,
-            "acls" => $acls);
+            "acls" => $acls];
         return $this->doCall("v2/users", 'POST', false, $this->apiKeyHeader(), $post);
     }
 
@@ -845,12 +845,12 @@ class VultrAPI
 
     public function updateUser(string $user_id, string $email, string $name, string $password, bool $api_enabled = false, array $acls = ['subscriptions_view'])
     {
-        $post = array(
+        $post = [
             "email" => $email,
             "name" => $name,
             "password" => $password,
             "api_enabled" => $api_enabled,
-            "acls" => $acls);
+            "acls" => $acls];
         return $this->doCall("v2/users/$user_id", 'PATCH', true, $this->apiKeyHeader(), $post);
     }
 
@@ -874,7 +874,7 @@ class VultrAPI
 
     public function createObjectStorage(int $cluster_id, string $label)
     {
-        $post = array("cluster_id" => $cluster_id, "label" => $label);
+        $post = ["cluster_id" => $cluster_id, "label" => $label];
         return $this->doCall("v2/object-storage", 'POST', false, $this->apiKeyHeader(), $post);
     }
 
@@ -885,12 +885,12 @@ class VultrAPI
 
     public function labelObjectStorage(string $label, string $obj_id)
     {
-        return $this->doCall("v2/object-storage/$obj_id", 'PUT', true, $this->apiKeyHeader(), array("label" => $label));
+        return $this->doCall("v2/object-storage/$obj_id", 'PUT', true, $this->apiKeyHeader(), ["label" => $label]);
     }
 
     public function s3keyRegenObjectStorage(string $obj_id)
     {
-        $post = array("object-storage-id" => $obj_id);
+        $post = ["object-storage-id" => $obj_id];
         return $this->doCall("v2/object-storage/$obj_id/regenerate-keys", 'POST', false, $this->apiKeyHeader(), $post);
     }
 
