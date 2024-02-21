@@ -1,6 +1,6 @@
 {
   "name": "corbpie/vultr-api-v2",
-  "description": "Simple Vultr API V2 PHP class framework.",
+  "description": "Easy to use Vultr API V2 PHP class wrapper framework.",
   "type": "library",
   "license": "MIT",
   "minimum-stability": "stable",

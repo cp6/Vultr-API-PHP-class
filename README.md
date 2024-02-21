@@ -25,7 +25,7 @@ echo $vultr->listServers();//Lists all server instances for account
 
 ### Current version
 
-2.3 Feb 2024
+2.3 Feb 21 2024
 
 ### Requires
 * PHP 8.2
@@ -43,7 +43,6 @@ $vultr->listServers();
 ```
 
 Create a server
-[example.php](example.php)
 ```php
 $vultr->serverCreateDC(19);//Sydney Australia location
 $vultr->serverCreatePlan(202);//(2048 MB RAM,55 GB SSD,2.00 TB BW)
