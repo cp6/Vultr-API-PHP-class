@@ -16,7 +16,7 @@ class VultrAPI
         return ["Authorization: Bearer " . self::API_KEY, "Content-Type: application/json"];
     }
 
-    public function doCall(string $url, string $type = 'GET', bool $return_http_code = false, array $headers = [], array $post_fields = [])
+    public function doCall(string $url, string $type = 'GET', bool $return_http_code = false, array $headers = [], array $post_fields = []): array|string|bool
     {
         if ($this->requires_sub_id && !isset($this->instance_id)) {
             return ["No sub id is set, it is needed to perform this action."];
@@ -336,14 +336,14 @@ class VultrAPI
     /*
      * SERVER CREATE BUILD:
      */
-    public function serverCreateDC(string $dc_id)
+    public function serverCreateDC(string $dc_id): void
     {
         $this->server_create_details = [
             "region" => $dc_id
         ];
     }
 
-    public function serverCreatePlan(string $plan_id)
+    public function serverCreatePlan(string $plan_id): void
     {
         $this->server_create_details = array_merge($this->server_create_details, [
             "plan" => $plan_id
@@ -373,49 +373,49 @@ class VultrAPI
         }
     }
 
-    public function serverCreateLabel(string $label)
+    public function serverCreateLabel(string $label): void
     {
         $this->server_create_details = array_merge($this->server_create_details, [
             "label" => $label
         ]);
     }
 
-    public function serverCreateHostname(string $hostname)
+    public function serverCreateHostname(string $hostname): void
     {
         $this->server_create_details = array_merge($this->server_create_details, [
             "hostname " => $hostname
         ]);
     }
 
-    public function serverCreateWithIpv4(string $ipv4)
+    public function serverCreateWithIpv4(string $ipv4): void
     {
         $this->server_create_details = array_merge($this->server_create_details, [
             "reserved_ipv4 " => $ipv4
         ]);
     }
 
-    public function serverCreateEnableIpv6(bool $ipv6 = true)
+    public function serverCreateEnableIpv6(bool $ipv6 = true): void
     {
         $this->server_create_details = array_merge($this->server_create_details, [
             "enable_ipv6 " => $ipv6
         ]);
     }
 
-    public function serverCreateEnablePrivateNetwork(string $pn = 'yes')
+    public function serverCreateEnablePrivateNetwork(string $pn = 'yes'): void
     {
         $this->server_create_details = array_merge($this->server_create_details, [
             "enable_private_network " => $pn
         ]);
     }
 
-    public function serverCreateStartScript(int $script_id)
+    public function serverCreateStartScript(int $script_id): void
     {
         $this->server_create_details = array_merge($this->server_create_details, [
             "script_id " => $script_id
         ]);
     }
 
-    public function serverCreateIPXEURL(string $url)
+    public function serverCreateIPXEURL(string $url): void
     {
         $this->server_create_details = array_merge($this->server_create_details, [
             "ipxe_chain_url " => $url
@@ -423,14 +423,14 @@ class VultrAPI
     }
 
 
-    public function serverEnableBackups(bool $backups = false)
+    public function serverEnableBackups(bool $backups = false): void
     {
         $this->server_create_details = array_merge($this->server_create_details, [
             "backups " => $backups
         ]);
     }
 
-    public function serverCreateEnableDDOSProtection(string $ddos_protection = 'yes')
+    public function serverCreateEnableDDOSProtection(string $ddos_protection = 'yes'): void
     {
         $this->server_create_details = array_merge($this->server_create_details, [
             "ddos_protection " => $ddos_protection
