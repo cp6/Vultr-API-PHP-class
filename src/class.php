@@ -439,24 +439,24 @@ class VultrAPI
 
     public function serverCreateOptions(): void
     {//Shows create server options
-        echo 'serverCreateDC(int $dc_id)<br>';
-        echo 'serverCreatePlan(int $plan_id)<br>';
-        echo 'serverCreateType(string $type, string $type_id)<br>';
+        echo '<code>serverCreateDC(int $dc_id)</code><br>';
+        echo '<code>serverCreatePlan(int $plan_id)</code><br>';
+        echo '<code>serverCreateType(string $type, string $type_id)</code><br>';
         echo '<b>end of required-----------------------------------</b><br>';
         echo '<b>These are optional:</b><br>';
-        echo 'serverCreateLabel(string $label)<br>';
-        echo 'serverCreateHostname(string $hostname)<br>';
-        echo 'serverCreateWithIpv4(string $ipv4)<br>';
-        echo 'serverCreateEnableIpv6(string $ipv6 = "yes")<br>';
-        echo 'serverCreateEnablePrivateNetwork(string $pn = "yes")<br>';
-        echo 'serverCreateStartScript(int $script_id)<br>';
-        echo 'serverCreateIPXEURL(string $url)<br>';
-        echo 'serverEnableBackups(bool $backups)<br>';
-        echo 'serverCreateEnableDDOSProtection(string $ddos_protection = "yes")<br>';
+        echo '<code>serverCreateLabel(string $label)</code><br>';
+        echo '<code>serverCreateHostname(string $hostname)v<br>';
+        echo '<code>serverCreateWithIpv4(string $ipv4)</code><br>';
+        echo '<code>serverCreateEnableIpv6(string $ipv6 = "yes")</code><br>';
+        echo '<code>serverCreateEnablePrivateNetwork(string $pn = "yes")</code><br>';
+        echo '<code>serverCreateStartScript(int $script_id)</code><br>';
+        echo '<code>serverCreateIPXEURL(string $url)</code><br>';
+        echo '<code>serverEnableBackups(bool $backups)</code><br>';
+        echo '<code>serverCreateEnableDDOSProtection(string $ddos_protection = "yes")</code><br>';
         echo '<b>The built array:</b><br>';
-        echo 'returnServerCreateArray()<br>';
+        echo '<code>returnServerCreateArray()</code><br>';
         echo '<b>Create an instance with the built array:</b><br>';
-        echo 'serverCreate(array $this->returnServerCreateArray())<br>';
+        echo '<code>serverCreate(array $this->returnServerCreateArray())</code><br>';
     }
 
     public function returnServerCreateArray(): false|string
